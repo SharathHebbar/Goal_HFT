@@ -27,30 +27,20 @@ c++ -O3 -Wall -shared -std=c++17 -fPIC $(python3 -m pybind11 --includes) moving_
 
 ### c++
 
-This invokes the C++ compiler.
-
-Usually:
-
-g++
-or clang++
-
-depending on your system.
+- This invokes the C++ compiler.
+- Usually: `g++` or `clang++` depending on your system.
 
 ### -03
 
-Optimization Level 3
+- Optimization Level 3
+- Tells compiler: "Optimize aggressively for performance"
+- Enables:
 
-Tells compiler:
-
-"Optimize aggressively for performance"
-
-Enables:
-
-- loop unrolling
-- vectorization
-- inlining
-- dead code elimination
-- constant propagation
+  - loop unrolling
+  - vectorization
+  - inlining
+  - dead code elimination
+  - constant propagation
 
 
 | Flag | Meaning |
@@ -60,45 +50,42 @@ Enables:
 | -02 | Balanced Optimization |
 | -03 | Aggressive Optimization |
 
-Quant/HFT systems almost always use: ```-O3```
+- Quant/HFT systems almost always use: ```-O3```
 
 ### -Wall
 
-Enable compiler warnings. Very important in C++.
+- Enable compiler warnings. Very important in C++.
 
-Catches:
+- Catches:
 
-- unused variables
-- type mismatches
-- suspicious logic
-- implicit conversions
+  - unused variables
+  - type mismatches
+  - suspicious logic
+  - implicit conversions
 
-Does NOT mean: "all warnings" just a common set.
+- Does NOT mean: "all warnings" just a common set.
 
 ### -shared
 
-Build a shared library instead of executable binary
-
-Without this you would get something like ```a.out```
-
-With this you get ```cppma.so```
-
-Shared libraries are loaded dynamically by Python.
+- Build a shared library instead of executable binary
+- Without this you would get something like ```a.out```
+- With this you get ```cppma.so```
+- Shared libraries are loaded dynamically by Python.
 
 ### -std=c++17
 
-Use:
+- Use:
+  - C++17 standard
 
-C++17 standard
-Enables modern C++ features:
+- Enables modern C++ features:
 
-- structured bindings
-- constexpr improvements
-- optional
-- filesystem
-- better templates
+  - structured bindings
+  - constexpr improvements
+  - optional
+  - filesystem
+  - better templates
 
-pybind11 expects modern C++.
+- pybind11 expects modern C++.
 
 
 ### -fPIC
@@ -112,66 +99,61 @@ pybind11 expects modern C++.
 
 ### $(python3 -m pybind11 --includes)
 
-This is shell substitution.
-The shell executes:
+- This is shell substitution.
+- The shell executes:
 
 ```sh
 python3 -m pybind11 --includes
 ```
 and injects the result.
 
-Usually expands to:
+- Usually expands to:
 
 ```sh
 -I/usr/include/python3.12
 -I/home/user/.local/.../pybind11/include
 ```
 
-Why Needed?
+- Why Needed?
 
-Compiler must know where headers exist.
-Specifically:
+  - Compiler must know where headers exist.
+  - Specifically:
 
-- Python.h
-- pybind11.h
+    - Python.h
+    - pybind11.h
 
-`-I` Means:
+- `-I` Means: "Include directory"
 
-"Include directory"
+- Example:
 
-Example:
-
-`-I/usr/include/python3.12`
-tells compiler Search here for header files
-
+  - `-I/usr/include/python3.12` tells compiler Search here for header files
 
 ### main.cpp
 
 - Your Source File
 
-
 ### -o
 
-Output file flag 
-Without it compiler defaults to `a.out`
+- Output file flag 
+- Without it compiler defaults to `a.out`
 
 ### cppma$(python3-config --extension-suffix)
 
-This creates correct Python extension filename
+- This creates correct Python extension filename
 
 ```sh
 python3-config --extension-suffix
 ```
 
-returns something like `.cpython-312-x86_64-linux-gnu.so`
-Final filename becomes `cppma.cpython-312-x86_64-linux-gnu.so`
+- returns something like `.cpython-312-x86_64-linux-gnu.so`
+- Final filename becomes `cppma.cpython-312-x86_64-linux-gnu.so`
 
-Why Important?
+- Why Important?
 
-Python expects extension modules to follow ABI naming conventions.
+  - Python expects extension modules to follow ABI naming conventions.
 
-This suffix encodes:
+  - This suffix encodes:
 
-- Python version
-- architecture
-- ABI compatibility
+    - Python version
+    - architecture
+    - ABI compatibility
